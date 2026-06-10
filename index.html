@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Input Waktu</title>
+  
+
+  <!-- FAVICON -->
+  <link rel="icon" href="cekpresen.png" type="image/png">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      margin: 0;
+      background: #f4f4f4;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .kirim {
+      background: #28a745;
+      color: white;
+    }
+
+    .kirim:hover {
+      background: #218838;
+    }
+
+    .link-btn {
+      background: #007bff;
+      color: white;
+    }
+
+    .link-btn:hover {
+      background: #0056b3;
+    }
+
+    #status {
+      text-align: center;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>Input Waktu</h2>
+
+  <label>Dari (F1):</label>
+  <input type="datetime-local" id="dari">
+
+  <label>Sampai (F2):</label>
+  <input type="datetime-local" id="sampai">
+
+  <button class="kirim" onclick="kirimData()">Kirim</button>
+
+  <p id="status"></p>
+
+  <!-- Tombol ke tiny.cc -->
+  <button class="link-btn" onclick="bukaLink()">
+    Lihat Rekap Presensi
+  </button>
+</div>
+
+<script>
+function formatTanggal(tanggal) {
+  let d = new Date(tanggal);
+
+  let day = String(d.getDate()).padStart(2, '0');
+  let month = String(d.getMonth() + 1).padStart(2, '0');
+  let year = d.getFullYear();
+
+  let hours = String(d.getHours()).padStart(2, '0');
+  let minutes = String(d.getMinutes()).padStart(2, '0');
+  let seconds = String(d.getSeconds()).padStart(2, '0');
+
+  return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+}
+
+function kirimData() {
+  let dari = document.getElementById("dari").value;
+  let sampai = document.getElementById("sampai").value;
+
+  if (!dari || !sampai) {
+    alert("Isi kedua field!");
+    return;
+  }
+
+  let data = {
+    dari: formatTanggal(dari),
+    sampai: formatTanggal(sampai)
+  };
+
+# kirim data ke rekap presensi di https://docs.google.com/spreadsheets/d/1WHLZ9z75Aan5FRErPj-Pxfzurr7F-WWJ1CDmqECZ60I/edit?usp=sharing
+
+  fetch("https://script.google.com/macros/s/AKfycbzxVNhHK4UQ0XtVvIb0CKrzno-YZ68k71isIwLJOYom0CPdHm4rXA3JlA0xITQt45Kt9Q/exec", {
+    method: "POST",
+    body: JSON.stringify(data)
+  })
+  .then(res => res.text())
+  .then(res => {
+    document.getElementById("status").innerText = "Berhasil kirim! silahkan Lihat Rekap Presensi";
+  })
+  .catch(err => {
+    document.getElementById("status").innerText = "Gagal!";
+  });
+}
+
+function bukaLink() {
+  window.open("https://docs.google.com/spreadsheets/d/1WHLZ9z75Aan5FRErPj-Pxfzurr7F-WWJ1CDmqECZ60I/edit?gid=0#gid=0", "_blank");
+}
+
+</script>
+</body>
+</html>
