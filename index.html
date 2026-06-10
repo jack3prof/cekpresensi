@@ -129,6 +129,7 @@ function kirimData() {
     dari: formatTanggal(dari),
     sampai: formatTanggal(sampai)
   };
+  
   fetch("https://script.google.com/macros/s/AKfycbzxVNhHK4UQ0XtVvIb0CKrzno-YZ68k71isIwLJOYom0CPdHm4rXA3JlA0xITQt45Kt9Q/exec", {
     method: "POST",
     body: JSON.stringify(data)
