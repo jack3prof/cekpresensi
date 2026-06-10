@@ -85,10 +85,10 @@
 <div class="container">
   <h2>Input Waktu</h2>
 
-  <label>Dari (F1):</label>
+  <label>Dari:</label>
   <input type="datetime-local" id="dari">
 
-  <label>Sampai (F2):</label>
+  <label>Sampai:</label>
   <input type="datetime-local" id="sampai">
 
   <button class="kirim" onclick="kirimData()">Kirim</button>
@@ -129,9 +129,6 @@ function kirimData() {
     dari: formatTanggal(dari),
     sampai: formatTanggal(sampai)
   };
-
-# kirim data ke rekap presensi di https://docs.google.com/spreadsheets/d/1WHLZ9z75Aan5FRErPj-Pxfzurr7F-WWJ1CDmqECZ60I/edit?usp=sharing
-
   fetch("https://script.google.com/macros/s/AKfycbzxVNhHK4UQ0XtVvIb0CKrzno-YZ68k71isIwLJOYom0CPdHm4rXA3JlA0xITQt45Kt9Q/exec", {
     method: "POST",
     body: JSON.stringify(data)
